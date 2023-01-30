@@ -20,19 +20,20 @@ def wait_key():
     if input_key == InputKey.ESC.value:
         cv2.destroyAllWindows()
     elif input_key == ord(InputKey.SAVE.value):  # 's' key
-        cv2.imwrite('pencilcity.png', img)
+        cv2.imwrite('pencilcity.png', gray)
         cv2.destroyAllWindows()
 
 
-img = cv2.imread('city.png', cv2.IMREAD_COLOR)
-img = cv2.GaussianBlur(img, ksize=(9, 9), sigmaX=0)
+if __name__ == "__main__":
+    img = cv2.imread('city.png', cv2.IMREAD_COLOR)
+    img = cv2.GaussianBlur(img, ksize=(9, 9), sigmaX=0)
 
-gray, color = cv2.pencilSketch(img, sigma_s=60, sigma_r=0.05, shade_factor=0.015)
+    gray, color = cv2.pencilSketch(img, sigma_s=60, sigma_r=0.05, shade_factor=0.015)
 
-# cv2.imshow('Original', img)
-cv2.imshow('gray', gray)
+    # cv2.imshow('Original', img)
+    cv2.imshow('gray', gray)
 
-wait_key()
+    wait_key()
 
 
 
