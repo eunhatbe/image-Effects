@@ -4,6 +4,8 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QAction, qApp, QFileDialog, QLabel, QVBoxLayout
 from PyQt5.QtGui import QPixmap
 
+import drawing
+
 class App(QMainWindow):
     x = 400
     y = 100
@@ -43,10 +45,9 @@ class App(QMainWindow):
         # action menu 생성
         action_menu = self.menu_bar.addMenu("실행")
 
-
         self.show()
 
-    # 파일 로드 액션
+    # 파일 로드
     def file_load_action(self):
         fname = QFileDialog.getOpenFileName(self)
         self.img_url = fname[0]  # 파일 경로
@@ -57,9 +58,3 @@ class App(QMainWindow):
         if self.img_url:
             pass
 
-
-
-# gui 생성
-app = QApplication(sys.argv)
-ex = App()
-sys.exit(app.exec_())   # 앱이 종료될 떄까지 대기
