@@ -15,7 +15,7 @@ class App(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
 
-        self.img_url = None
+        self.img_url = None     # 이미지 경로
         self.init_ui()
 
 
@@ -24,6 +24,11 @@ class App(QMainWindow):
         self.setWindowTitle('Pencil drawing')
         self.move(App.x, App.y)
         self.resize(App.width, App.height)
+
+        # 이미지 영역 세팅
+        self.img_label = QLabel("Test",self)
+        self.img_label.move(30, 30)
+        self.img_label.resize(400, 20)   # 길이, y좌표
 
         # 메뉴바 세팅
         self.menu_bar = self.menuBar()
@@ -49,12 +54,20 @@ class App(QMainWindow):
 
     # 파일 로드
     def file_load_action(self):
-        fname = QFileDialog.getOpenFileName(self)
-        self.img_url = fname[0]  # 파일 경로
-        self.draw_img()
+        fname = QFileDialog.getOpenFileName(self)   # 선택한 이미지 정보
+        self.img_url = fname[0]                     # 파일 경로
+        self.draw_img()                             # 이미지 띄우기
+        self.show_url(fname)                        # Test code
 
     # 파일을 선택하면 이미지를 그림
     def draw_img(self):
         if self.img_url:
-            pass
+            pixmap = QPixmap(self.img_url)
+            # 윈도우 비율에 맞게 이미지 크기 조정
+            self.img_label.setPixmap(QPixmap(pixmap).scaled(self.width,self.height, Qt.KeepAspectRatio))
+            self.img_label.resize(400,400)
 
+
+    def show_url(self, fname):
+        # self.url_label.setText(self.img_url)
+        pass
