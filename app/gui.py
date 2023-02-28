@@ -60,7 +60,6 @@ class App(QMainWindow):
         action_menu.addAction(self.pencil_img_action)
         # action_menu.addSeparator()    경계선 생성
 
-
         self.show()
 
 
@@ -91,30 +90,21 @@ class App(QMainWindow):
         # 이미지 선택 판별
         '''
         todo
-        이미지를 새로운 창에 그리는 것이 아닌 원래 있던 이미지 영역에 표시하기.
+        작억물 사이즈 맞추기
         '''
 
         if self.img_url:
             img = cv2.imread(self.img_url, cv2.IMREAD_COLOR)
             img = cv2.GaussianBlur(img, ksize=(9, 9), sigmaX=0)
             gray, color = cv2.pencilSketch(img, sigma_s=60, sigma_r=0.05, shade_factor=0.015)
-
-            # height, width, channel = color.shape
+            
+            # cv2 img size
             height, width = gray.shape
-            bytesPerLine = 3 * width
-
-            print(color.data)
-            print(gray.data)
-            print(color.shape)
-            print(gray.shape)
-
+            
             # cv2로 수정한 파일을 pixmap 으로 다시 변환
-            qImg = QImage(color.data, width, height, bytesPerLine, QImage.Format_RGB888).rgbSwapped()
-            pixmap = QPixmap.fromImage(qImg)
+            gray_pixmap = QPixmap.fromImage(QImage(gray, width, height, QImage.Format_Grayscale8))
 
-            self.img_label.setPixmap(pixmap.scaled(self.img_label.size(), Qt.KeepAspectRatio))
-
-
+            self.img_label.setPixmap(gray_pixmap.scaled(self.img_label.size(), Qt.KeepAspectRatio))
 
         else:
             QMessageBox.about(self,"error","이미지를 선택해주세요")
