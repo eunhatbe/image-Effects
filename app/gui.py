@@ -3,7 +3,7 @@ import sys
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QAction, qApp, QFileDialog, QLabel, QVBoxLayout, \
     QMessageBox
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QPixmap, QImage
 
 import cv2
 
@@ -53,7 +53,7 @@ class App(QMainWindow):
         # action menu event
         self.pencil_img_action = QAction("연필 모드")
         # self.pencil_img_action.triggered.connect(lambda: pencil_draw(self.img_url)) # 연필 그리기 액션 테스트 코드
-        self.pencil_img_action.triggered.connect(self.pencil_draw)  # 연필 그리기 액션
+        self.pencil_img_action.triggered.connect(self.draw_pencil)  # 연필 그리기 액션
 
         # action menu 생성
         action_menu = self.menu_bar.addMenu("실행")
@@ -69,7 +69,9 @@ class App(QMainWindow):
         fname = QFileDialog.getOpenFileName(self)   # 선택한 이미지 정보
         self.img_url = fname[0]                     # 파일 경로
         self.draw_img()                             # 이미지 띄우기
-        self.show_url(fname)                        # Test code
+
+        # todo - "testcode"
+        # self.show_url(fname)                        # Test code
 
 
     # 파일을 선택하면 이미지를 그림
@@ -80,23 +82,38 @@ class App(QMainWindow):
             self.img_label.setPixmap(QPixmap(pixmap).scaled(self.width,self.height, Qt.KeepAspectRatio))
             # self.img_label.resize(400,400)
 
-
     def show_url(self, fname):
         # self.url_label.setText(self.img_url)
         pass
 
     # 연필 그리기 기능
-    def pencil_draw(self):
+    def draw_pencil(self):
         # 이미지 선택 판별
         '''
         todo
         이미지를 새로운 창에 그리는 것이 아닌 원래 있던 이미지 영역에 표시하기.
         '''
+
         if self.img_url:
             img = cv2.imread(self.img_url, cv2.IMREAD_COLOR)
             img = cv2.GaussianBlur(img, ksize=(9, 9), sigmaX=0)
             gray, color = cv2.pencilSketch(img, sigma_s=60, sigma_r=0.05, shade_factor=0.015)
-            cv2.imshow('gray', gray)
+
+            # height, width, channel = color.shape
+            height, width = gray.shape
+            bytesPerLine = 3 * width
+
+            print(color.data)
+            print(gray.data)
+            print(color.shape)
+            print(gray.shape)
+
+            # cv2로 수정한 파일을 pixmap 으로 다시 변환
+            qImg = QImage(color.data, width, height, bytesPerLine, QImage.Format_RGB888).rgbSwapped()
+            pixmap = QPixmap.fromImage(qImg)
+
+            self.img_label.setPixmap(pixmap.scaled(self.img_label.size(), Qt.KeepAspectRatio))
+
 
 
         else:
