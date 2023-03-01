@@ -70,7 +70,7 @@ class App(QMainWindow):
         self.draw_img()                             # 이미지 띄우기
 
         # todo - "testcode"
-        # self.show_url(fname)                        # Test code
+        # self.show_url(fname)                      # Test code
 
 
     # 파일을 선택하면 이미지를 그림
@@ -80,7 +80,8 @@ class App(QMainWindow):
             # 윈도우 비율에 맞게 이미지 크기 조정
             self.img_label.setPixmap(QPixmap(pixmap).scaled(self.width,self.height, Qt.KeepAspectRatio))
             # self.img_label.resize(400,400)
-
+    
+    # 파일 경로 ui
     def show_url(self, fname):
         # self.url_label.setText(self.img_url)
         pass
@@ -88,11 +89,6 @@ class App(QMainWindow):
     # 연필 그리기 기능
     def draw_pencil(self):
         # 이미지 선택 판별
-        '''
-        todo
-        작억물 사이즈 맞추기
-        '''
-
         if self.img_url:
             img = cv2.imread(self.img_url, cv2.IMREAD_COLOR)
             img = cv2.GaussianBlur(img, ksize=(9, 9), sigmaX=0)
