@@ -20,7 +20,7 @@ class App(QMainWindow):
         self.img_url = None     # 이미지 경로
         self.init_ui()
 
-
+        
     def init_ui(self):
         # 윈도우 세팅
         self.setWindowTitle('Pencil drawing')
@@ -49,7 +49,6 @@ class App(QMainWindow):
         file_menu.addSeparator()            # 경계선 생성
         file_menu.addAction(self.quit_action)
 
-
         # action menu event
         self.pencil_img_action = QAction("연필 모드")
         # self.pencil_img_action.triggered.connect(lambda: pencil_draw(self.img_url)) # 연필 그리기 액션 테스트 코드
@@ -62,7 +61,7 @@ class App(QMainWindow):
 
         self.show()
 
-
+        
     # 파일 로드
     def file_load_action(self):
         fname = QFileDialog.getOpenFileName(self)   # 선택한 이미지 정보
@@ -81,11 +80,13 @@ class App(QMainWindow):
             self.img_label.setPixmap(QPixmap(pixmap).scaled(self.width,self.height, Qt.KeepAspectRatio))
             # self.img_label.resize(400,400)
     
+    
     # 파일 경로 ui
     def show_url(self, fname):
         # self.url_label.setText(self.img_url)
         pass
 
+    
     # 연필 그리기 기능
     def draw_pencil(self):
         # 이미지 선택 판별
