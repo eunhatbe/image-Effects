@@ -20,7 +20,7 @@ class App(QMainWindow):
         self.img_url = None     # 이미지 경로
         self.init_ui()
 
-        
+
     def init_ui(self):
         # 윈도우 세팅
         self.setWindowTitle('Pencil drawing')
@@ -38,7 +38,7 @@ class App(QMainWindow):
 
         # file menu event
         self.file_action = QAction("파일 불러오기")
-        self.file_action.triggered.connect(self.file_load_action)
+        self.file_action.triggered.connect(self.load_file_action)
 
         self.quit_action = QAction("종료")
         self.quit_action.triggered.connect(qApp.quit) # 종료
@@ -48,6 +48,7 @@ class App(QMainWindow):
         file_menu.addAction(self.file_action)
         file_menu.addSeparator()            # 경계선 생성
         file_menu.addAction(self.quit_action)
+
 
         # action menu event
         self.pencil_img_action = QAction("연필 모드")
@@ -61,15 +62,15 @@ class App(QMainWindow):
 
         self.show()
 
-        
+
     # 파일 로드
-    def file_load_action(self):
+    def load_file_action(self):
         fname = QFileDialog.getOpenFileName(self)   # 선택한 이미지 정보
         self.img_url = fname[0]                     # 파일 경로
         self.draw_img()                             # 이미지 띄우기
 
         # todo - "testcode"
-        # self.show_url(fname)                      # Test code
+        # self.show_url(fname)                        # Test code
 
 
     # 파일을 선택하면 이미지를 그림
@@ -79,25 +80,27 @@ class App(QMainWindow):
             # 윈도우 비율에 맞게 이미지 크기 조정
             self.img_label.setPixmap(QPixmap(pixmap).scaled(self.width,self.height, Qt.KeepAspectRatio))
             # self.img_label.resize(400,400)
-    
-    
-    # 파일 경로 ui
+
     def show_url(self, fname):
         # self.url_label.setText(self.img_url)
         pass
 
-    
     # 연필 그리기 기능
     def draw_pencil(self):
         # 이미지 선택 판별
+        '''
+        todo
+        작억물 사이즈 맞추기
+        '''
+
         if self.img_url:
             img = cv2.imread(self.img_url, cv2.IMREAD_COLOR)
             img = cv2.GaussianBlur(img, ksize=(9, 9), sigmaX=0)
             gray, color = cv2.pencilSketch(img, sigma_s=60, sigma_r=0.05, shade_factor=0.015)
-            
+
             # cv2 img size
             height, width = gray.shape
-            
+
             # cv2로 수정한 파일을 pixmap 으로 다시 변환
             gray_pixmap = QPixmap.fromImage(QImage(gray, width, height, QImage.Format_Grayscale8))
 
