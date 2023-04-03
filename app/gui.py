@@ -7,6 +7,11 @@ from PyQt5.QtGui import QPixmap, QImage
 
 import cv2
 
+'''todo
+    status bar init , 
+    size test...
+'''
+
 
 class App(QMainWindow):
     x = 400
