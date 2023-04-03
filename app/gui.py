@@ -88,10 +88,6 @@ class App(QMainWindow):
     # 연필 그리기 기능
     def draw_pencil(self):
         # 이미지 선택 판별
-        '''
-        todo
-        작억물 사이즈 맞추기
-        '''
 
         if self.img_url:
             img = cv2.imread(self.img_url, cv2.IMREAD_COLOR)
