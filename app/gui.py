@@ -7,11 +7,6 @@ from PyQt5.QtGui import QPixmap, QImage
 
 import cv2
 
-'''todo
-    status bar init , 
-    size test...
-'''
-
 
 class App(QMainWindow):
     x = 400
@@ -63,16 +58,15 @@ class App(QMainWindow):
         # action menu 생성
         action_menu = self.menu_bar.addMenu("실행")
         action_menu.addAction(self.pencil_img_action)
-        # action_menu.addSeparator()    경계선 생성
 
         self.show()
 
 
     # 파일 로드
     def load_file_action(self):
-        fname = QFileDialog.getOpenFileName(self)   # 선택한 이미지 정보
-        self.img_url = fname[0]                     # 파일 경로
-        self.draw_img()                             # 이미지 띄우기
+        file_info = QFileDialog.getOpenFileName(self)   # 선택한 이미지 정보
+        self.img_url = file_info[0]                     # 파일 경로
+        self.draw_img()                                 # 이미지 띄우기
 
         # todo - "testcode"
         # self.show_url(fname)                        # Test code
@@ -93,6 +87,10 @@ class App(QMainWindow):
     # 연필 그리기 기능
     def draw_pencil(self):
         # 이미지 선택 판별
+        '''
+        todo
+        작업물 사이즈 맞추기
+        '''
 
         if self.img_url:
             img = cv2.imread(self.img_url, cv2.IMREAD_COLOR)
@@ -104,8 +102,6 @@ class App(QMainWindow):
 
             # cv2로 수정한 파일을 pixmap 으로 다시 변환
             gray_pixmap = QPixmap.fromImage(QImage(gray, width, height, QImage.Format_Grayscale8))
-
-            self.img_label.setPixmap(gray_pixmap.scaled(self.img_label.size(), Qt.KeepAspectRatio))
-
+            self.img_label.setPixmap(gray_pixmap.scaled(self.width,self.height, Qt.KeepAspectRatio))
         else:
             QMessageBox.about(self,"error","이미지를 선택해주세요")
