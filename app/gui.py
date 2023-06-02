@@ -2,7 +2,7 @@ import sys
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QAction, qApp, QFileDialog, QLabel, QVBoxLayout, \
-    QMessageBox
+    QMessageBox, QProgressBar
 from PyQt5.QtGui import QPixmap, QImage
 
 import cv2
@@ -59,6 +59,11 @@ class App(QMainWindow):
         action_menu = self.menu_bar.addMenu("실행")
         action_menu.addAction(self.pencil_img_action)
 
+
+        # ProgressBar 생성
+        self.bar = QProgressBar(self)
+        self.bar.setGeometry(10, 550, 780, 30)
+
         self.show()
 
 
@@ -78,7 +83,6 @@ class App(QMainWindow):
             pixmap = QPixmap(self.img_url)
             # 윈도우 비율에 맞게 이미지 크기 조정
             self.img_label.setPixmap(QPixmap(pixmap).scaled(self.width,self.height, Qt.KeepAspectRatio))
-            # self.img_label.resize(400,400)
 
     def show_url(self, fname):
         # self.url_label.setText(self.img_url)
@@ -87,10 +91,6 @@ class App(QMainWindow):
     # 연필 그리기 기능
     def draw_pencil(self):
         # 이미지 선택 판별
-        '''
-        todo
-        작업물 사이즈 맞추기
-        '''
 
         if self.img_url:
             img = cv2.imread(self.img_url, cv2.IMREAD_COLOR)
@@ -105,3 +105,7 @@ class App(QMainWindow):
             self.img_label.setPixmap(gray_pixmap.scaled(self.width,self.height, Qt.KeepAspectRatio))
         else:
             QMessageBox.about(self,"error","이미지를 선택해주세요")
+
+    #  프로그레스바 처리
+    def update_progress_bar(self):
+        pass
