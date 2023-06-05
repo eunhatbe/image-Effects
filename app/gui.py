@@ -72,8 +72,7 @@ class App(QMainWindow):
         file_info = QFileDialog.getOpenFileName(self)   # 선택한 이미지 정보
         self.img_url = file_info[0]                     # 파일 경로
         self.draw_img()                                 # 이미지 띄우기
-
-        # todo - "testcode"
+        
         # self.show_url(fname)                        # Test code
 
 
