@@ -2,4 +2,8 @@
 
 
 class EffectApplier:
-    pass
+    def __init__(self) -> None:
+        pass
+
+    def apply(self) -> None:
+        pass
