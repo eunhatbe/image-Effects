@@ -1,5 +1,22 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 
 
 class Effect(ABC):
-    pass
+
+    @abstractmethod
+    def apply(self):
+        pass
+
+
+
+class PencilEffect(Effect):
+
+    def apply(self):
+        pass
+
+
+class CartoonEffect(Effect):
+
+    def apply(self):
+        pass
+

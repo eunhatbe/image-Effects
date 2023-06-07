@@ -7,6 +7,8 @@ from PyQt5.QtGui import QPixmap, QImage
 
 import cv2
 
+from utils.EffectApplier import EffectApplier
+
 
 class App(QMainWindow):
     x = 400
@@ -17,6 +19,8 @@ class App(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
 
+
+        self.effect_manager = EffectApplier()
         self.img_url = None  # 이미지 경로
         self.init_ui()
 
