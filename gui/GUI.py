@@ -41,6 +41,9 @@ class App(QMainWindow):
         self.menu_bar = self.menuBar()
         self.menu_bar.setNativeMenuBar(False)
 
+        ################################################################################################################
+        # 파일 메뉴 생성
+        ################################################################################################################
         # file menu event
         self.file_action = QAction("파일 불러오기")
         self.file_action.triggered.connect(self.load_file_action)
@@ -54,6 +57,9 @@ class App(QMainWindow):
         file_menu.addSeparator()  # 경계선 생성
         file_menu.addAction(self.quit_action)
 
+        ################################################################################################################
+        # 실행 메뉴 생성
+        ################################################################################################################
         # action menu event
         self.pencil_img_action = QAction("연필 모드")
         # self.pencil_img_action.triggered.connect(lambda: pencil_draw(self.img_url)) # 연필 그리기 액션 테스트 코드
