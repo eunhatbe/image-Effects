@@ -1,6 +1,6 @@
 import sys
 
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QSize
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QAction, qApp, QFileDialog, QLabel, QVBoxLayout, \
     QMessageBox, QProgressBar
 from PyQt5.QtGui import QPixmap, QImage
@@ -24,16 +24,18 @@ class App(QMainWindow):
         self.img_url = None  # 이미지 경로
         self.init_ui()
 
+
     def init_ui(self):
         # 윈도우 세팅
         self.setWindowTitle('Pencil drawing')
         self.move(App.x, App.y)
         self.resize(App.width, App.height)
+        self.setFixedSize(QSize(App.width, App.height))
 
         # 이미지 영역 세팅
         self.img_label = QLabel(self)
         self.img_label.move(200, 50)  # 이미지 영역 좌표
-        self.img_label.resize(500, 500)  # 이미지 크기
+        self.img_label.resize(400, 500)  # 이미지 크기
 
         # 메뉴바 세팅
         self.menu_bar = self.menuBar()

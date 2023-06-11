@@ -14,3 +14,16 @@
 
 
 ```
+
+### Error
+
+이미지 처리중 특정 이미지는 해당 에러를 일으킴
+```text
+Process finished with exit code -1073741819 (0xC0000005)
+
+
+solution:
+
+from pympler import muppy
+all_objects=muppy.get_objects()  # this causes pydev debugger exit with code -1073741819 (0xC0000005)
+```
