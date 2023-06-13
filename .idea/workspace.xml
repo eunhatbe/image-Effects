@@ -2,11 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4212bc62-5ad1-48e1-bf71-4c0ff130bf2b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/newyork.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testimg.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gui/GUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/gui/GUI.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/Effect.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/effect.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/EffectApplier.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/EffectApplier.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

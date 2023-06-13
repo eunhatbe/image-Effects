@@ -65,6 +65,9 @@ class App(QMainWindow):
         # self.pencil_img_action.triggered.connect(lambda: pencil_draw(self.img_url)) # 연필 그리기 액션 테스트 코드
         self.pencil_img_action.triggered.connect(self.draw_pencil)  # 연필 그리기 액션
 
+        #self.pencil_img_action.triggered.connect(self.effect_manager.render())
+
+
         # action menu 생성
         action_menu = self.menu_bar.addMenu("실행")
         action_menu.addAction(self.pencil_img_action)
@@ -114,4 +117,8 @@ class App(QMainWindow):
 
     #  프로그레스바 처리
     def update_progress_bar(self):
+        pass
+
+
+    def apply_effect(self):
         pass

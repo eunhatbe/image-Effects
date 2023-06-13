@@ -1,5 +1,5 @@
 
-
+from effect import Effect
 
 class EffectApplier:
 
@@ -13,7 +13,7 @@ class EffectApplier:
     def __init__(self) -> None:
         pass
 
-    def render(self) -> None:
+    def render(self, effect: Effect) -> None:
         pass
 
 
