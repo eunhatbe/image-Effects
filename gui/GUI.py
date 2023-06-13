@@ -8,6 +8,7 @@ from PyQt5.QtGui import QPixmap, QImage
 import cv2
 
 from utils.EffectApplier import EffectApplier
+from utils.Effect import Effect, PencilEffect
 
 
 class App(QMainWindow):
@@ -60,17 +61,19 @@ class App(QMainWindow):
         ################################################################################################################
         # 실행 메뉴 생성
         ################################################################################################################
+        # effect init
+
+
         # action menu event
         self.pencil_img_action = QAction("연필 모드")
-        # self.pencil_img_action.triggered.connect(lambda: pencil_draw(self.img_url)) # 연필 그리기 액션 테스트 코드
-        self.pencil_img_action.triggered.connect(self.draw_pencil)  # 연필 그리기 액션
+        # self.pencil_img_action.triggered.connect(self.draw_pencil)  # 연필 그리기 액션
 
-        #self.pencil_img_action.triggered.connect(self.effect_manager.render())
-
+        self.pencil_img_action.triggered.connect(lambda : self.apply_effect(PencilEffect()))
 
         # action menu 생성
         action_menu = self.menu_bar.addMenu("실행")
         action_menu.addAction(self.pencil_img_action)
+
 
         # ProgressBar 생성
         self.bar = QProgressBar(self)
@@ -97,28 +100,20 @@ class App(QMainWindow):
         # self.url_label.setText(self.img_url)
         pass
 
-    # 연필 그리기 기능
-    def draw_pencil(self):
-        # 이미지 선택 판별
-
+    # 기능 적용 메서드
+    def apply_effect(self, effect: Effect):
+        # 이미지가 선택되었을 경우
         if self.img_url:
-            img = cv2.imread(self.img_url, cv2.IMREAD_COLOR)
-            img = cv2.GaussianBlur(img, ksize=(9, 9), sigmaX=0)
-            gray, color = cv2.pencilSketch(img, sigma_s=60, sigma_r=0.05, shade_factor=0.015)
+            pix_map = self.effect_manager.render(effect, self.img_url)
 
-            # cv2 img size
-            height, width = gray.shape
-
-            # cv2로 수정한 파일을 pixmap 으로 다시 변환
-            gray_pixmap = QPixmap.fromImage(QImage(gray, width, height, QImage.Format_Grayscale8))
-            self.img_label.setPixmap(gray_pixmap.scaled(self.width, self.height, Qt.KeepAspectRatio))
+            if(pix_map):
+                self.img_label.setPixmap(pix_map.scaled(self.width, self.height, Qt.KeepAspectRatio))
+            else:
+                print("pixmap error")
         else:
             QMessageBox.about(self, "error", "이미지를 선택해주세요")
 
+
     #  프로그레스바 처리
     def update_progress_bar(self):
-        pass
-
-
-    def apply_effect(self):
         pass

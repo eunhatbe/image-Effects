@@ -1,5 +1,6 @@
+from PyQt5.QtGui import QPixmap
 
-from effect import Effect
+from utils.Effect import Effect
 
 class EffectApplier:
 
@@ -13,8 +14,8 @@ class EffectApplier:
     def __init__(self) -> None:
         pass
 
-    def render(self, effect: Effect) -> None:
-        pass
+    def render(self, effect: Effect, url: str) -> QPixmap:
+        return effect.apply(url)
 
 
 if __name__ == "__main__":
