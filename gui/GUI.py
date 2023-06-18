@@ -1,15 +1,16 @@
 import sys
+import os
 
-from PyQt5.QtCore import Qt, QSize
+from PyQt5.QtCore import Qt, QSize, QTimer, QThread, pyqtSignal
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QAction, qApp, QFileDialog, QLabel, QVBoxLayout, \
     QMessageBox, QProgressBar
 from PyQt5.QtGui import QPixmap, QImage
 
 import cv2
+from PyQt5.uic.properties import QtCore
 
 from utils.EffectApplier import EffectApplier
 from utils.Effect import Effect, PencilEffect
-
 
 class App(QMainWindow):
     x = 400
@@ -19,6 +20,10 @@ class App(QMainWindow):
 
     def __init__(self) -> None:
         super().__init__()
+
+        self.progress_bar = QProgressBar(self)
+        self.timer = QTimer(self)
+        self.progress = 0
 
 
         self.effect_manager = EffectApplier()
@@ -75,17 +80,24 @@ class App(QMainWindow):
         action_menu.addAction(self.pencil_img_action)
 
 
-        # ProgressBar 생성
-        self.bar = QProgressBar(self)
-        self.bar.setGeometry(10, 550, 780, 30)
+        # ProgressBar 초기화
+        self.progress_bar.setGeometry(10, 550, 780, 30)
+        self.progress_bar.setValue(0)
 
         self.show()
 
     # 파일 로드
+    '''
+    todo: 이미지 파일이 아닐 경우 error
+    '''
     def load_file_action(self):
         file_info = QFileDialog.getOpenFileName(self)  # 선택한 이미지 정보
         self.img_url = file_info[0]  # 파일 경로
-        self.draw_img()  # 이미지 띄우기
+
+        if self.is_valid_image(self.img_url):
+            self.draw_img()  # 이미지 띄우기
+        else:
+            QMessageBox.about(self, "error", "이미지 파일을 선택해주세요.")
 
         # self.show_url(fname)                        # Test code
 
@@ -101,19 +113,50 @@ class App(QMainWindow):
         pass
 
     # 기능 적용 메서드
-    def apply_effect(self, effect: Effect):
+    def apply_effect(self, effect):
         # 이미지가 선택되었을 경우
         if self.img_url:
-            pix_map = self.effect_manager.render(effect, self.img_url)
-
-            if(pix_map):
-                self.img_label.setPixmap(pix_map.scaled(self.width, self.height, Qt.KeepAspectRatio))
-            else:
-                print("pixmap error")
+            self.effect_worker = EffectWorker(self.effect_manager, effect, self.img_url)
+            self.effect_worker.processingFinished.connect(self.handle_processing_finished)
+            self.effect_worker.start()
         else:
             QMessageBox.about(self, "error", "이미지를 선택해주세요")
+
+    # 메인 스레드 ui 작업
+    def handle_processing_finished(self, success, pix_map):
+        if success:
+            self.img_label.setPixmap(pix_map.scaled(self.width, self.height, Qt.KeepAspectRatio))
+        else:
+            print("pixmap error")
+
+
+    # 이미지 파일 유효성 검사
+    def is_valid_image(self, file_path):
+        valid_extensions = [".png", ".jpg", ".jpeg", ".gif", ".bmp"]  # 허용하는 이미지 확장자
+        file_extension = os.path.splitext(file_path)[1].lower()  # 파일 확장자 추출
+
+        if file_extension in valid_extensions:
+            return True
+        else:
+            return False
 
 
     #  프로그레스바 처리
     def update_progress_bar(self):
         pass
+
+
+# 이미지 처리를 위한 스레드
+class EffectWorker(QThread):
+    processingFinished = pyqtSignal(bool, object)
+
+    def __init__(self, effect_manager, effect, img_url):
+        super().__init__()
+        self.effect_manager = effect_manager
+        self.effect = effect
+        self.img_url = img_url
+
+    def run(self):
+        pix_map = self.effect_manager.render(self.effect, self.img_url)
+        self.processingFinished.emit(pix_map is not None, pix_map)
+

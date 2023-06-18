@@ -2,10 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4212bc62-5ad1-48e1-bf71-4c0ff130bf2b" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/test/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/progress.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/test.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/tt.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gui/GUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/gui/GUI.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/EffectApplier.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/EffectApplier.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/effect.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/Effect.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/Effect.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/Effect.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
