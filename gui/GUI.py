@@ -87,15 +87,14 @@ class App(QMainWindow):
         self.show()
 
     # 파일 로드
-    '''
-    todo: 이미지 파일이 아닐 경우 error
-    '''
     def load_file_action(self):
         file_info = QFileDialog.getOpenFileName(self)  # 선택한 이미지 정보
         self.img_url = file_info[0]  # 파일 경로
 
         if self.is_valid_image(self.img_url):
             self.draw_img()  # 이미지 띄우기
+        elif self.img_url == '':    # 이미지를 선택하지 않았다면 (아무것도 선택하지 않고 닫는다면)
+            return
         else:
             QMessageBox.about(self, "error", "이미지 파일을 선택해주세요.")
 
@@ -135,10 +134,8 @@ class App(QMainWindow):
         valid_extensions = [".png", ".jpg", ".jpeg", ".gif", ".bmp"]  # 허용하는 이미지 확장자
         file_extension = os.path.splitext(file_path)[1].lower()  # 파일 확장자 추출
 
-        if file_extension in valid_extensions:
-            return True
-        else:
-            return False
+        return file_extension in valid_extensions
+
 
 
     #  프로그레스바 처리
@@ -148,7 +145,7 @@ class App(QMainWindow):
 
 # 이미지 처리를 위한 스레드
 class EffectWorker(QThread):
-    processingFinished = pyqtSignal(bool, object)
+    processingFinished = pyqtSignal(bool, QPixmap)
 
     def __init__(self, effect_manager, effect, img_url):
         super().__init__()
