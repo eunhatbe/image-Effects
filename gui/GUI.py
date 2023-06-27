@@ -116,7 +116,7 @@ class App(QMainWindow):
         # 이미지가 선택되었을 경우
         if self.img_url:
             self.effect_worker = EffectWorker(self.effect_manager, effect, self.img_url)
-            self.effect_worker.processingFinished.connect(self.handle_processing_finished)
+            self.effect_worker.processingFinished.connect(self.handle_processing_finished)   # 스레드의 작업이 종료되면 종료 시그널을 보냄
             self.effect_worker.start()
         else:
             QMessageBox.about(self, "error", "이미지를 선택해주세요")
