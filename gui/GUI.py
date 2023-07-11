@@ -92,8 +92,9 @@ class App(QMainWindow):
         self.img_url = file_info[0]  # 파일 경로
 
         if self.is_valid_image(self.img_url):
-            self.draw_img()  # 이미지 띄우기
-        elif self.img_url == '':    # 이미지를 선택하지 않았다면 (아무것도 선택하지 않고 닫는다면)
+            self.progress_bar.setValue(0)   # 프로그래스바 초기화
+            self.draw_img()                 # 이미지 띄우기
+        elif self.img_url == '':            # 이미지를 선택하지 않았다면 (아무것도 선택하지 않고 닫는다면)
             return
         else:
             QMessageBox.about(self, "error", "이미지 파일을 선택해주세요.")
@@ -115,15 +116,17 @@ class App(QMainWindow):
     def apply_effect(self, effect):
         # 이미지가 선택되었을 경우
         if self.img_url:
-            self.effect_worker = EffectWorker(self.effect_manager, effect, self.img_url)
+            self.effect_worker = EffectWorker(self.effect_manager, effect, self.img_url)     # 이미지 처리를 위한 스레드 생성
             self.effect_worker.processingFinished.connect(self.handle_processing_finished)   # 스레드의 작업이 종료되면 종료 시그널을 보냄
             self.effect_worker.start()
+
         else:
             QMessageBox.about(self, "error", "이미지를 선택해주세요")
 
     # 메인 스레드 ui 작업
     def handle_processing_finished(self, success, pix_map):
         if success:
+            self.update_progress_bar(100)
             self.img_label.setPixmap(pix_map.scaled(self.width, self.height, Qt.KeepAspectRatio))
         else:
             print("pixmap error")
@@ -135,7 +138,6 @@ class App(QMainWindow):
         file_extension = os.path.splitext(file_path)[1].lower()  # 파일 확장자 추출
 
         return file_extension in valid_extensions
-
 
 
     #  프로그레스바 처리
@@ -155,9 +157,15 @@ class EffectWorker(QThread):
         self.img_url = img_url
 
     def run(self):
-        progress_value = 0  # 현재 진행상황
+        progress_total = 100
 
-
+        # 이미지 효과를 적용한 뒤 pixmap으로 반환
         pix_map = self.effect_manager.render(self.effect, self.img_url)
         self.processingFinished.emit(pix_map is not None, pix_map)
+
+
+    def generate_work(self):
+        while True:
+            pass
+
 
