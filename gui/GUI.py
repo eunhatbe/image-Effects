@@ -139,13 +139,14 @@ class App(QMainWindow):
 
 
     #  프로그레스바 처리
-    def update_progress_bar(self):
-        pass
+    def update_progress_bar(self, progress):
+        self.progress_bar.setValue(progress)
 
 
 # 이미지 처리를 위한 스레드
 class EffectWorker(QThread):
     processingFinished = pyqtSignal(bool, QPixmap)
+    progressUpdated = pyqtSignal(int)
 
     def __init__(self, effect_manager, effect, img_url):
         super().__init__()
@@ -154,6 +155,9 @@ class EffectWorker(QThread):
         self.img_url = img_url
 
     def run(self):
+        progress_value = 0  # 현재 진행상황
+
+
         pix_map = self.effect_manager.render(self.effect, self.img_url)
         self.processingFinished.emit(pix_map is not None, pix_map)
 
